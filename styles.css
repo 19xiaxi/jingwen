@@ -1,49 +1,142 @@
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+/* 基础重置 */
+* {
     margin: 0;
-    background-color: #f0f0f0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.book {
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f0f0f0;
+}
+
+/* 书本容器 */
+.book-container {
     position: relative;
-    width: 600px;
-    height: 400px;
-    perspective: 1000px;
+    width: 800px;
+    height: 600px;
+    margin: 50px auto;
+    perspective: 2000px;
 }
 
+/* 通用页面样式 */
 .page {
     position: absolute;
-    width: 300px;
-    height: 400px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transform-origin: left center;
-    transition: transform 0.5s ease;
-}
-
-.page-left {
+    top: 0;
     left: 0;
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: white;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    backface-visibility: hidden;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    visibility: hidden;
+    border-radius: 2px;
 }
 
-.page-middle {
-    left: 300px;
-    background-color: #e0e0e0;
-    z-index: 0;
+.page.active {
+    visibility: visible;
+    z-index: 2;
 }
 
-.page-right {
-    left: 300px;
-    z-index: 1;
+/* 封面封底特殊样式 */
+#cover,
+#back-cover {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: white;
+    text-align: center;
+    padding-top: 15%;
 }
 
-.page-content {
-    padding: 20px;
+#cover h1 {
+    font-size: 2.5em;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-.page.flipped {
+/* 翻页动画 */
+.page.flipped-left {
     transform: rotateY(-180deg);
+    transform-origin: right center;
+    z-index: 1;
+}
+
+.page.flipped-right {
+    transform: rotateY(0deg);
+    transform-origin: left center;
+    z-index: 1;
+}
+
+/* 内容页样式 */
+.page:not(#cover):not(#back-cover) {
+    padding: 30px;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.page-content h2 {
+    color: #2c3e50;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+/* 导航控件 */
+.navigation-controls {
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+}
+
+button {
+    padding: 12px 30px;
+    font-size: 16px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+}
+
+/* 页面编号 */
+.page-number {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: #7f8c8d;
+    font-size: 0.9em;
+}
+
+/* 响应式设计 */
+@media (max-width: 840px) {
+    .book-container {
+        width: 95vw;
+        height: 70vh;
+    }
+    
+    .page:not(#cover):not(#back-cover) {
+        padding: 20px;
+        font-size: 14px;
+    }
+    
+    button {
+        padding: 10px 25px;
+    }
 }

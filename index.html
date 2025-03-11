@@ -1,31 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D翻页电子书</title>
     <link rel="stylesheet" href="styles.css">
-    <title>翻书效果</title>
 </head>
-
 <body>
-    <div class="book">
-        <div class="page page-left">
+    <div class="book-container">
+        <!-- 封面 -->
+        <div id="cover" class="page">
             <div class="page-content">
-                <h2>左页内容</h2>
-                <p>这是书的左页内容。这里可以放置一些文本信息，比如故事的开头、章节介绍等。</p>
+                <h1>欢迎阅读电子书</h1>
+                <div class="author">作者：AI助手</div>
+                <span class="page-number">封面</span>
             </div>
         </div>
-        <div class="page page-middle"></div>
-        <div class="page page-right">
+
+        <!-- 内容页 1-6 -->
+        <div id="page1" class="page">
             <div class="page-content">
-                <h2>右页内容</h2>
-                <p>这是书的右页内容。可以继续讲述故事、提供更多的信息或者展示一些图片。</p>
+                <h2>第一章 开始</h2>
+                <p>这是本书的第一页内容...</p>
+                <span class="page-number">1</span>
+            </div>
+        </div>
+
+        <div id="page2" class="page">
+            <div class="page-content">
+                <h2>第二章 发展</h2>
+                <p>这是第二页的精彩内容...</p>
+                <span class="page-number">2</span>
+            </div>
+        </div>
+
+        <div id="page3" class="page">
+            <div class="page-content">
+                <h2>第三章 深入</h2>
+                <p>第三页的详细讲解...</p>
+                <span class="page-number">3</span>
+            </div>
+        </div>
+
+        <div id="page4" class="page">
+            <div class="page-content">
+                <h2>第四章 实践</h2>
+                <p>实际操作指南...</p>
+                <span class="page-number">4</span>
+            </div>
+        </div>
+
+        <div id="page5" class="page">
+            <div class="page-content">
+                <h2>第五章 进阶</h2>
+                <p>高级技巧讲解...</p>
+                <span class="page-number">5</span>
+            </div>
+        </div>
+
+        <div id="page6" class="page">
+            <div class="page-content">
+                <h2>第六章 总结</h2>
+                <p>全书内容回顾...</p>
+                <span class="page-number">6</span>
+            </div>
+        </div>
+
+        <!-- 封底 -->
+        <div id="back-cover" class="page">
+            <div class="page-content">
+                <h2>感谢阅读</h2>
+                <p>期待下次再见！</p>
+                <span class="page-number">封底</span>
             </div>
         </div>
     </div>
-    <button id="flip-button">翻页</button>
+
+    <!-- 导航控件 -->
+    <div class="navigation-controls">
+        <button id="prev">上一页</button>
+        <button id="next">下一页</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
-
 </html>
