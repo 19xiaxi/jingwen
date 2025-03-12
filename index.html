@@ -3,83 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D翻页电子书</title>
+    <title>3D翻页立体书效果</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="book-container">
-        <!-- 封面 -->
-        <div id="cover" class="page">
-            <div class="page-content">
-                <h1>欢迎阅读电子书</h1>
-                <div class="author">作者：AI助手</div>
-                <span class="page-number">封面</span>
-            </div>
-        </div>
-
-        <!-- 内容页 1-6 -->
-        <div id="page1" class="page">
-            <div class="page-content">
-                <h2>第一章 开始</h2>
-                <p>这是本书的第一页内容...</p>
-                <span class="page-number">1</span>
-            </div>
-        </div>
-
-        <div id="page2" class="page">
-            <div class="page-content">
-                <h2>第二章 发展</h2>
-                <p>这是第二页的精彩内容...</p>
-                <span class="page-number">2</span>
-            </div>
-        </div>
-
-        <div id="page3" class="page">
-            <div class="page-content">
-                <h2>第三章 深入</h2>
-                <p>第三页的详细讲解...</p>
-                <span class="page-number">3</span>
-            </div>
-        </div>
-
-        <div id="page4" class="page">
-            <div class="page-content">
-                <h2>第四章 实践</h2>
-                <p>实际操作指南...</p>
-                <span class="page-number">4</span>
-            </div>
-        </div>
-
-        <div id="page5" class="page">
-            <div class="page-content">
-                <h2>第五章 进阶</h2>
-                <p>高级技巧讲解...</p>
-                <span class="page-number">5</span>
-            </div>
-        </div>
-
-        <div id="page6" class="page">
-            <div class="page-content">
-                <h2>第六章 总结</h2>
-                <p>全书内容回顾...</p>
-                <span class="page-number">6</span>
-            </div>
-        </div>
-
+    <div class="book preserve-3d">
         <!-- 封底 -->
-        <div id="back-cover" class="page">
-            <div class="page-content">
-                <h2>感谢阅读</h2>
-                <p>期待下次再见！</p>
-                <span class="page-number">封底</span>
+        <div class="now_page point preserve-3d last-page back-cover-page">
+            <div class="book-page front">
+                <p>致谢</p>
+            </div>
+            <div class="book-page back">
+                <p>封底</p>
             </div>
         </div>
-    </div>
+        
+        <!-- 第三页 -->
+        <div class="now_page point preserve-3d">
+            <div class="book-page front">
+                <p>第三页正面</p>
+            </div>
+            <div class="book-page back">
+                <p>第三页背面</p>
+            </div>
+        </div>
 
-    <!-- 导航控件 -->
-    <div class="navigation-controls">
-        <button id="prev">上一页</button>
-        <button id="next">下一页</button>
+        <!-- 第二页 -->
+        <div class="now_page point preserve-3d">
+            <div class="book-page front">
+                <p>第二页正面</p>
+            </div>
+            <div class="book-page back">
+                <p>第二页背面</p>
+            </div>
+        </div>
+        
+        <!-- 第一页 -->
+        <div class="now_page point preserve-3d">
+            <div class="book-page front">
+                <p>第一页正面</p>
+            </div>
+            <div class="book-page back">
+                <p>第一页背面</p>
+            </div>
+        </div>
+        
+        <!-- 封面 -->
+        <div class="point now_page preserve-3d cover-page">
+            <div class="book-page front first-page">
+                <p>封面</p>
+            </div>
+            <div class="book-page back">
+                <p>翻页特效</p>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

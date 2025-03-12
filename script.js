@@ -1,97 +1,73 @@
-// 初始化配置
-const bookConfig = {
-    currentPage: 0,
-    totalPages: 8, // 封面 + 6内容页 + 封底
-    animationDuration: 800
-};
+var active_z = 10;
+var flippedPages = [];
+var totalPages = $('.now_page').length;
+var currentPage = 0;
 
-// 页面元素缓存
-const domCache = {
-    getPage: (index) => document.getElementById(
-        index === 0 ? 'cover' : 
-        index === bookConfig.totalPages - 1 ? 'back-cover' : 
-        `page${index}`
-    ),
-    prevBtn: document.getElementById('prev'),
-    nextBtn: document.getElementById('next')
-};
-
-// 核心翻页逻辑
-function updateBookState() {
-    for (let i = 0; i < bookConfig.totalPages; i++) {
-        const page = domCache.getPage(i);
-        page.classList.remove('active', 'flipped-left', 'flipped-right');
-        
-        // 封面封底特殊处理
-        if (bookConfig.currentPage === 0 || bookConfig.currentPage === bookConfig.totalPages - 1) {
-            page.style.zIndex = i === bookConfig.currentPage ? bookConfig.totalPages : 0;
-            if (i === bookConfig.currentPage) page.classList.add('active');
-            continue;
-        }
-
-        // 动态层级计算
-        page.style.zIndex = bookConfig.totalPages - Math.abs(bookConfig.currentPage - i);
-        
-        // 双页激活状态
-        if (i === bookConfig.currentPage - 1 || i === bookConfig.currentPage) {
-            page.classList.add('active');
-            page.classList.add(i === bookConfig.currentPage - 1 ? 'flipped-left' : 'flipped-right');
-        }
-    }
-    
-    // 按钮状态更新
-    domCache.prevBtn.disabled = bookConfig.currentPage === 0;
-    domCache.nextBtn.disabled = bookConfig.currentPage === bookConfig.totalPages - 1;
+function initBook() {
+    $('.book').removeClass('book-position-left book-position-right').addClass('book-position-center');
 }
 
-// 翻页控制
-function navigate(direction) {
-    let newPage = bookConfig.currentPage;
-    
-    if (direction === 'prev') {
-        newPage = Math.max(0, 
-            bookConfig.currentPage === bookConfig.totalPages - 1 ? 
-            bookConfig.currentPage - 1 : 
-            bookConfig.currentPage - 2
-        );
-    } else {
-        newPage = Math.min(bookConfig.totalPages - 1,
-            bookConfig.currentPage === 0 ? 
-            2 : 
-            bookConfig.currentPage + 2
-        );
-    }
-    
-    if (newPage !== bookConfig.currentPage) {
-        bookConfig.currentPage = newPage;
-        updateBookState();
-    }
-}
-
-// 事件监听
-domCache.prevBtn.addEventListener('click', () => navigate('prev'));
-domCache.nextBtn.addEventListener('click', () => navigate('next'));
-
-// 触摸滑动支持（移动端）
-let touchStartX = 0;
-document.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-}, false);
-
-document.addEventListener('touchend', e => {
-    const touchEndX = e.changedTouches[0].clientX;
-    const deltaX = touchStartX - touchEndX;
-    
-    if (Math.abs(deltaX) > 50) {
-        deltaX > 0 ? navigate('next') : navigate('prev');
-    }
-}, false);
-
-// 键盘导航支持
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') navigate('prev');
-    if (e.key === 'ArrowRight') navigate('next');
+$(document).ready(function() {
+    initBook();
 });
 
-// 初始化
-updateBookState();
+$('.now_page').click(function(){
+    var $this = $(this);
+    var $book = $('.book');
+    var pageIndex = $('.now_page').index(this);
+    var isCoverPage = $this.hasClass('cover-page'); // 使用类名判断是否为封面
+    var isBackCoverPage = $this.hasClass('back-cover-page'); // 判断是否为封底
+    var totalPageCount = $('.now_page').length;
+    
+    console.log('当前点击页面索引: ' + pageIndex + ', 总页数: ' + totalPageCount + ', 当前页: ' + currentPage);
+    
+    if($this.hasClass('flip-animation-start')){
+        // 关闭页面逻辑 - 右翻（向前翻）
+        $this.removeClass('flip-animation-start').addClass('flip-animation-end').css('z-index', 0);
+        flippedPages.pop();
+        active_z--;
+        currentPage--;
+    
+        // 位置调整 - 只在闭合书本和打开书本时移动位置
+        if (flippedPages.length === 0) {
+            // 回到封面状态，书本居中
+            $book.removeClass('book-position-left book-position-right').addClass('book-position-center');
+            console.log('回到封面，书本居中');
+        } else if (flippedPages.length === totalPages - 1) {
+            // 回到封底状态，书本居中
+            $book.removeClass('book-position-left book-position-right').addClass('book-position-center');
+            console.log('回到封底，书本居中');
+        }
+        // 其他翻页情况保持书本位置不变
+    } else {
+        // 打开页面逻辑 - 左翻（向后翻）
+        $this.removeClass('flip-animation-end').addClass('flip-animation-start').css('z-index', active_z);
+        
+        if (!$this.hasClass('flipped-page')) {
+            flippedPages.push($this);
+            currentPage++;
+            
+            // 根据当前页面在书本中的位置决定书本位置 - 只在特定情况下移动
+            if (pageIndex === 0) {
+                // 翻开封面，书本偏右
+                $book.removeClass('book-position-center book-position-left').addClass('book-position-right');
+                console.log('翻开封面，书本偏右');
+            } else if (pageIndex === totalPageCount - 1) {
+                // 翻到封底，书本偏左
+                $book.removeClass('book-position-center book-position-right').addClass('book-position-left');
+                console.log('翻到封底，书本偏左');
+            }
+            // 其他翻页情况保持书本位置不变
+            
+            // 在动画结束后添加flipped-page类
+            setTimeout(function() {
+                $this.addClass('flipped-page');
+            }, 3000);
+        }
+        active_z++;
+    }
+    
+    // 更新当前页面状态信息
+    console.log('翻页后状态 - 当前页: ' + currentPage + ', 已翻页数: ' + flippedPages.length);
+}
+);
