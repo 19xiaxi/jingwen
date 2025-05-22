@@ -12,14 +12,20 @@
 <body>
     <div class="container">
         <!-- 侧边栏目录 -->
-        <div class="sidebar">
-            <h2>目录</h2>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>目录</h2>
+                <button id="sidebar-toggle-btn" class="sidebar-toggle-btn">×</button>
+            </div>
             <ul id="toc"></ul>
             <div class="bookmarks">
                 <h3>书签</h3>
                 <ul id="bookmarks-list"></ul>
             </div>
         </div>
+        
+        <!-- 侧边栏显示按钮 -->
+        <button id="show-sidebar-btn" class="show-sidebar-btn">≡</button>
         
         <!-- 主书本容器 -->
         <div class="book-container">
@@ -55,7 +61,5 @@
     <!-- 加载脚本 -->
     <script src="js/performance.js"></script>
     <script src="js/book.js"></script>
-    <script src="js/mechanics.js"></script>
-    <script src="js/scene-manager.js"></script>
 </body>
 </html>

@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalPages = document.getElementById('total-pages');
     const tocList = document.getElementById('toc');
     const bookmarksList = document.getElementById('bookmarks-list');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+    const showSidebarBtn = document.getElementById('show-sidebar-btn');
+    const bookContainer = document.querySelector('.book-container');
     
     // 初始化
     function init() {
@@ -106,66 +110,75 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 懒加载页面内容
     function loadPageContent(pageIndex, frontElement, backElement) {
-        // 创建占位内容
-        frontElement.innerHTML += `<h2>第${pageIndex}页</h2><p>加载中...</p>`;
-        backElement.innerHTML += `<h2>第${pageIndex + 1}页</h2><p>加载中...</p>`;
-        
-        // 使用Intersection Observer检测页面是否可见
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // 页面可见时加载实际内容
-                    fetchPageContent(pageIndex).then(content => {
-                        if (content.front) {
-                            frontElement.innerHTML = content.front;
-                            frontElement.appendChild(frontPageNumber);
-                        }
-                        
-                        if (content.back) {
-                            backElement.innerHTML = content.back;
-                            backElement.appendChild(backPageNumber);
-                        }
-                        
-                        // 初始化页面上的交互元素
-                        initInteractiveElements(frontElement);
-                        initInteractiveElements(backElement);
-                    });
-                    
-                    // 停止观察
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        // 开始观察
-        observer.observe(frontElement);
-    }
-    
-    // 模拟从服务器获取页面内容
-    function fetchPageContent(pageIndex) {
-        return new Promise(resolve => {
-            // 模拟网络延迟
-            setTimeout(() => {
-                // 这里应该是从服务器获取内容，现在使用模拟数据
-                const content = {
-                    front: `
-                        <h2>第${pageIndex}页</h2>
-                        <p>这是第${pageIndex}页的内容。您可以在这里放置文本、图片和交互元素。</p>
-                        <div class="interactive-element" data-mechanic="pull" data-id="mechanic_${pageIndex}_1">
-                            <img src="assets/images/placeholder.jpg" alt="交互元素" data-src="assets/images/mechanic_${pageIndex}.jpg">
-                            <p>点击此处触发交互</p>
-                        </div>
-                    `,
-                    back: `
-                        <h2>第${pageIndex + 1}页</h2>
-                        <p>这是第${pageIndex + 1}页的内容。翻页效果让阅读体验更加真实。</p>
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" 
-                             data-src="assets/images/page_${pageIndex + 1}.jpg" alt="页面图片">
-                    `
-                };
-                resolve(content);
-            }, 300);
-        });
+        let frontContent = '';
+        let backContent = '';
+        switch(pageIndex) {
+            case 1:
+                // 初见・心动时刻
+                frontContent = `
+                    <h2>初见・心动时刻</h2>
+                    <div class="drawer-mechanism">
+                        <button onclick="alert('抽屉打开，发现初次约会的电影票！')">拉出抽屉</button>
+                        <div class="drawer-content">可贴真实电影票/咖啡杯垫</div>
+                    </div>
+                    <div class="ferris-wheel">
+                        <img src="assets/ferris-wheel.png" alt="摩天轮" style="width:120px;">
+                        <button onclick="alert('心跳音效播放！')">旋转摩天轮</button>
+                    </div>
+                    <blockquote>在 37℃的夏风里，我的目光被你袖口的星芒绊住了脚</blockquote>
+                `;
+                backContent = `<p>扫码听见我们的心跳音效</p><img src="assets/qrcode-heart.png" alt="心跳音效二维码" style="width:80px;">`;
+                break;
+            case 2:
+                // 热恋・日常碎片
+                frontContent = `
+                    <h2>热恋・日常碎片</h2>
+                    <div class="flip-grid">
+                        <button onclick="alert('翻开，发现默契小趣事！')">翻翻页</button>
+                        <div class="grid-content">9宫格日常梗</div>
+                    </div>
+                    <div class="slider-track">
+                        <span>关键词磁贴：</span>
+                        <input type="range" min="1" max="3" value="1" />
+                        <span>火锅/猫咪/凌晨三点看星星</span>
+                    </div>
+                `;
+                backContent = `<p>拼出我们的专属密语</p>`;
+                break;
+            case 3:
+                // 周年・承诺时刻
+                frontContent = `
+                    <h2>周年・承诺时刻</h2>
+                    <div class="popup-tree">
+                        <button onclick="alert('立体许愿树弹出！')">打开许愿树</button>
+                        <div class="tree-content">愿望卡片可抽拉</div>
+                    </div>
+                    <div class="ribbon-light">
+                        <button onclick="alert('拉动丝带，小屋亮灯！')">拉动丝带</button>
+                    </div>
+                    <blockquote>第 365 天，想和你从‘你好’说到‘余生请多指教’</blockquote>
+                `;
+                backContent = `<p>扫码听见我们的周年BGM</p><img src="assets/qrcode-anniversary.png" alt="周年BGM二维码" style="width:80px;">`;
+                break;
+            case 4:
+                // 未来・空白待续
+                frontContent = `
+                    <h2>未来・空白待续</h2>
+                    <div class="film-notes">
+                        <p>可撕便签本，粘贴照片/手绘</p>
+                    </div>
+                    <div class="envelope">
+                        <button onclick="alert('打开信封，发现时间胶囊卡片！')">打开信封</button>
+                    </div>
+                `;
+                backContent = `<p>填写我们的未来计划，封口贴火漆印章</p>`;
+                break;
+            default:
+                frontContent = `<h2>我们的故事</h2><p>每一页都是一段温暖的回忆。</p>`;
+                backContent = `<p>继续翻页，发现更多惊喜！</p>`;
+        }
+        frontElement.innerHTML = frontContent;
+        backElement.innerHTML = backContent;
     }
     
     // 初始化页面上的交互元素
@@ -186,6 +199,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
                 document.dispatchEvent(event);
+                
+                // 添加触发效果
+                this.classList.add('triggered');
+                
+                // 延迟后移除效果
+                setTimeout(() => {
+                    this.classList.remove('triggered');
+                }, 2000);
             });
         });
     }
@@ -585,69 +606,109 @@ document.addEventListener('DOMContentLoaded', function() {
         // 书签按钮
         bookmarkBtn.addEventListener('click', toggleBookmark);
         
+        // 侧边栏隐藏按钮
+        sidebarToggleBtn.addEventListener('click', function() {
+            sidebar.classList.add('hidden');
+            showSidebarBtn.classList.add('visible');
+            bookContainer.classList.add('full-width');
+            setTimeout(updateBookSize, 300);
+        });
+        
+        // 侧边栏显示按钮
+        showSidebarBtn.addEventListener('click', function() {
+            sidebar.classList.remove('hidden');
+            showSidebarBtn.classList.remove('visible');
+            bookContainer.classList.remove('full-width');
+            setTimeout(updateBookSize, 300);
+        });
+        
         // 键盘翻页
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                // 左箭头或上箭头：上一页
                 if (bookConfig.currentPage > 0) {
                     goToPage(bookConfig.currentPage - 1);
                 }
             } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                // 右箭头或下箭头：下一页
                 if (bookConfig.currentPage < bookConfig.totalPages + 1) {
                     goToPage(bookConfig.currentPage + 1);
                 }
-            } else if (e.key === 'Home') {
-                // Home键：回到封面
-                goToPage(0);
-            } else if (e.key === 'End') {
-                // End键：跳到封底
-                goToPage(bookConfig.totalPages + 1);
-            } else if (e.key === 'b') {
-                // B键：添加/移除书签
-                toggleBookmark();
             }
         });
         
         // 窗口大小变化时更新布局
         window.addEventListener('resize', function() {
-            // 更新书本尺寸
             updateBookSize();
         });
-        
-        // 监听机关触发事件
-        document.addEventListener('mechanic_trigger', function(e) {
-            const { type, id, element } = e.detail;
-            console.log(`机关触发: ${type}, ID: ${id}`);
-            
-            // 这里可以添加机关触发后的效果
-            element.classList.add('triggered');
-            
-            // 延迟后移除效果
-            setTimeout(() => {
-                element.classList.remove('triggered');
-            }, 2000);
-        });
     }
+    
+    // 监听机关触发事件
+    document.addEventListener('mechanic_trigger', function(e) {
+        const { type, id, element } = e.detail;
+        console.log(`机关触发: ${type}, ID: ${id}`);
+        
+        // 这里可以添加机关触发后的效果
+        element.classList.add('triggered');
+        
+        // 延迟后移除效果
+        setTimeout(() => {
+            element.classList.remove('triggered');
+        }, 2000);
+    });
+    },
     
     // 更新书本尺寸
-    function updateBookSize() {
-        // 根据窗口大小调整书本尺寸
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
+    document.addEventListener('DOMContentLoaded', function() {
+        // 侧边栏切换功能
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+        const showSidebarBtn = document.getElementById('show-sidebar-btn');
+        const bookContainer = document.querySelector('.book-container');
         
-        // 计算合适的书本尺寸
-        const bookWidth = Math.min(windowWidth * 0.8, 1000);
-        const bookHeight = Math.min(windowHeight * 0.8, 700);
+        // 隐藏侧边栏
+        sidebarToggleBtn.addEventListener('click', function() {
+            sidebar.classList.add('hidden');
+            showSidebarBtn.classList.add('visible');
+            bookContainer.classList.add('full-width');
+            
+            // 更新书本尺寸
+            setTimeout(updateBookSize, 300);
+        });
         
-        // 应用尺寸
-        book.style.width = `${bookWidth}px`;
-        book.style.height = `${bookHeight}px`;
-    }
-    
-    // 初始化书本尺寸
-    updateBookSize();
-    
-    // 初始化
-    init();
-});
+        // 显示侧边栏
+        showSidebarBtn.addEventListener('click', function() {
+            sidebar.classList.remove('hidden');
+            showSidebarBtn.classList.remove('visible');
+            bookContainer.classList.remove('full-width');
+            
+            // 更新书本尺寸
+            setTimeout(updateBookSize, 300);
+        });
+        
+        // 更新书本尺寸函数中添加检查侧边栏状态
+        function updateBookSize() {
+            // 根据窗口大小调整书本尺寸
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // 计算合适的书本尺寸
+            let bookWidth = Math.min(windowWidth * 0.8, 1000);
+            
+            // 如果侧边栏隐藏，可以给书本更多空间
+            if (sidebar.classList.contains('hidden')) {
+                bookWidth = Math.min(windowWidth * 0.9, 1200);
+            }
+            
+            const bookHeight = Math.min(windowHeight * 0.8, 700);
+            
+            // 应用尺寸
+            book.style.width = `${bookWidth}px`;
+            book.style.height = `${bookHeight}px`;
+        }
+        
+        // 初始化书本尺寸
+        updateBookSize();
+        
+        // 初始化
+        init();
+    }),
+)

@@ -1,25 +1,32 @@
 /* 书本样式 */
 .book {
     position: relative;
-    width: var(--book-width);
-    height: var(--book-height);
+    width: 800px;
+    height: 500px;
     perspective: 1500px;
     transform-style: preserve-3d;
 }
 
 .page {
     position: absolute;
-    width: var(--page-width);
-    height: var(--book-height);
+    width: 50%;
+    height: 100%;
     top: 0;
     right: 0;
     transform-origin: left center;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     transform-style: preserve-3d;
-    transition: transform var(--transition-duration) ease;
-    background-color: var(--page-color);
-    box-shadow: 0 0 15px var(--shadow-color);
-    overflow: hidden;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
     z-index: 1;
+}
+
+.page.flipped {
+    transform: rotateY(-180deg);
+}
+
+.page.dragging {
+    transition: none;
 }
 
 .page-content {
@@ -28,30 +35,37 @@
     height: 100%;
     padding: 20px;
     backface-visibility: hidden;
-    transform-style: preserve-3d;
     overflow: hidden;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
 }
 
-.page-front, .page-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
+.page-front {
+    transform: rotateY(0deg);
+    z-index: 2;
 }
 
 .page-back {
     transform: rotateY(180deg);
+    z-index: 1;
 }
 
-/* 封面和封底样式 */
-.cover-front, .cover-back {
-    background-color: var(--primary-color);
+.cover-front {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: right center;
+    background-color: #1a73e8;
     color: white;
-    z-index: 2;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
 }
 
-.cover-front .page-content, .cover-back .page-content {
+.cover-front .page-content {
+    background-color: #1a73e8;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -59,55 +73,31 @@
     text-align: center;
 }
 
-/* 翻页效果 */
-.flipped {
-    transform: rotateY(-180deg);
+.cover-front.flipped {
+    transform: rotateY(180deg);
 }
 
-/* 书脊样式 */
-.book::before {
-    content: '';
+.cover-back {
     position: absolute;
-    left: 0;
-    width: 10px;
-    height: var(--book-height);
-    background-color: var(--primary-color);
-    transform: translateX(-5px) rotateY(90deg);
+    width: 50%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: #1a73e8;
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     z-index: 0;
 }
 
-/* 页面内容样式 */
-.page h2 {
-    color: var(--primary-color);
-    margin-bottom: 15px;
+.cover-back .page-content {
+    background-color: #1a73e8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-.page p {
-    line-height: 1.6;
-    margin-bottom: 10px;
-}
-
-.page img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 10px auto;
-    border-radius: 5px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* 页面翻转时的阴影效果 */
-.page.flipping {
-    animation: page-shadow 0.5s ease;
-}
-
-@keyframes page-shadow {
-    0% { box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); }
-    50% { box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); }
-    100% { box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); }
-}
-
-/* 页面编号 */
 .page-number {
     position: absolute;
     bottom: 10px;
@@ -123,16 +113,6 @@
     left: 20px;
 }
 
-/* 交互元素样式 */
-.interactive-element {
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.interactive-element:hover {
-    transform: scale(1.05);
-}
-
 /* 书签样式 */
 .bookmark-indicator {
     position: absolute;
@@ -140,7 +120,38 @@
     right: 0;
     width: 20px;
     height: 40px;
-    background-color: #e74c3c;
-    z-index: 10;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    background-color: #f44336;
+    z-index: 5;
+}
+
+/* 交互元素样式 */
+.interactive-element {
+    cursor: pointer;
+    border: 2px solid transparent;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.interactive-element:hover {
+    border-color: #1a73e8;
+    background-color: rgba(26, 115, 232, 0.1);
+}
+
+.interactive-element.triggered {
+    animation: pulse 0.5s;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* 图片样式 */
+.page-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
 }
