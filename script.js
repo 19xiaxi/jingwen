@@ -2,6 +2,7 @@ var active_z = 10;
 var flippedPages = [];
 var totalPages = $('.now_page').length;
 var currentPage = 0;
+var isAnimating = false; // 添加动画状态标记，防止快速连续点击
 
 function initBook() {
     $('.book').removeClass('book-position-left book-position-right').addClass('book-position-center');
@@ -15,9 +16,17 @@ $('.now_page').click(function(){
     var $this = $(this);
     var $book = $('.book');
     var pageIndex = $('.now_page').index(this);
-    var isCoverPage = $this.hasClass('cover-page'); // 使用类名判断是否为封面
+    var isCoverPage = $this.hasClass('cover-page'); // 判断是否为封面
     var isBackCoverPage = $this.hasClass('back-cover-page'); // 判断是否为封底
     var totalPageCount = $('.now_page').length;
+    
+    // 如果动画正在进行中，则不响应点击
+    if (isAnimating) {
+        return;
+    }
+    
+    // 设置动画状态为进行中
+    isAnimating = true;
     
     console.log('当前点击页面索引: ' + pageIndex + ', 总页数: ' + totalPageCount + ', 当前页: ' + currentPage);
     
@@ -28,15 +37,19 @@ $('.now_page').click(function(){
         active_z--;
         currentPage--;
     
-        // 位置调整 - 只在闭合书本和打开书本时移动位置
+        // 位置调整 - 根据当前状态决定书本位置
         if (flippedPages.length === 0) {
             // 回到封面状态，书本居中
             $book.removeClass('book-position-left book-position-right').addClass('book-position-center');
             console.log('回到封面，书本居中');
-        } else if (flippedPages.length === totalPages - 1) {
-            // 回到封底状态，书本居中
-            $book.removeClass('book-position-left book-position-right').addClass('book-position-center');
-            console.log('回到封底，书本居中');
+        } else if (currentPage === 1) {
+            // 从第二页回到第一页，书本偏右
+            $book.removeClass('book-position-center book-position-left').addClass('book-position-right');
+            console.log('从第二页回到第一页，书本偏右');
+        } else if (isBackCoverPage) {
+            // 从封底翻页，书本保持偏左位置
+            $book.removeClass('book-position-center book-position-right').addClass('book-position-left');
+            console.log('从封底翻页，书本保持偏左位置');
         }
         // 其他翻页情况保持书本位置不变
     } else {
@@ -47,11 +60,15 @@ $('.now_page').click(function(){
             flippedPages.push($this);
             currentPage++;
             
-            // 根据当前页面在书本中的位置决定书本位置 - 只在特定情况下移动
+            // 根据当前页面在书本中的位置决定书本位置
             if (pageIndex === 0) {
                 // 翻开封面，书本偏右
                 $book.removeClass('book-position-center book-position-left').addClass('book-position-right');
                 console.log('翻开封面，书本偏右');
+            } else if (pageIndex === 1) {
+                // 翻开第一页，书本居中
+                $book.removeClass('book-position-right book-position-left').addClass('book-position-center');
+                console.log('翻开第一页，书本居中');
             } else if (pageIndex === totalPageCount - 1) {
                 // 翻到封底，书本偏左
                 $book.removeClass('book-position-center book-position-right').addClass('book-position-left');
@@ -67,7 +84,11 @@ $('.now_page').click(function(){
         active_z++;
     }
     
+    // 动画结束后重置动画状态
+    setTimeout(function() {
+        isAnimating = false;
+    }, 3000);
+    
     // 更新当前页面状态信息
     console.log('翻页后状态 - 当前页: ' + currentPage + ', 已翻页数: ' + flippedPages.length);
-}
-);
+});

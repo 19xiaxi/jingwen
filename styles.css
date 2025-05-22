@@ -1,4 +1,4 @@
-.book{
+.book {
     height: 90%;
     width: 40%;
     background: #ffffff7a;
@@ -23,7 +23,7 @@
 }
 
 .book-position-right {
-    left: 30%;
+    left: 90%;
 }
 
 .book-position-center {
@@ -71,16 +71,16 @@
     -o-transform: rotateY(180deg);
 }
 
-.book-page p{
+.book-page p {
     font-size: 2rem;
     margin-top: 8rem;
     color: #ff6300;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 /*首页样式*/
-.first-page{
+.first-page {
     background-color: #1976D2;
 }
 
