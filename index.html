@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="flower.css">
     <link rel="stylesheet" href="snow.css">
+    <link rel="stylesheet" href="mechanics.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
 </head>
 <body>
     <div class="flower-container"></div>
@@ -23,30 +25,48 @@
             </div>
         </div>
         
-        <!-- 第三页 -->
+        <!-- 第三页 - 添加拉动心形机关 -->
         <div class="now_page point preserve-3d">
             <div class="book-page front">
                 <p>第三页正面</p>
+                <div class="mechanic-heart" data-trigger="pull" data-target="#photo-collage" data-sound="heartbeat.mp3">
+                    <svg class="pull-handle" viewBox="0 0 100 100">
+                        <path d="M50,30 C55,20 70,20 75,30 C80,40 80,50 50,70 C20,50 20,40 25,30 C30,20 45,20 50,30 Z" fill="#ff6b6b"></path>
+                    </svg>
+                    <div class="wire-path"></div>
+                </div>
+                <div id="photo-collage" class="hidden-content">
+                    <div class="memory-photos">
+                        <!-- 照片将通过JavaScript动态加载 -->
+                    </div>
+                </div>
             </div>
             <div class="book-page back">
                 <p>第三页背面</p>
             </div>
         </div>
 
-        <!-- 第二页 -->
+        <!-- 第二页 - 添加旋转密码锁 -->
         <div class="now_page point preserve-3d">
             <div class="book-page front">
                 <p>第二页正面</p>
+                <canvas id="combination-lock" data-digits="4" data-solution="1314" data-reward="#love-letter"></canvas>
+                <div id="love-letter" class="hidden-content">
+                    <p class="letter-text">这是一封隐藏的情书...</p>
+                </div>
             </div>
             <div class="book-page back">
                 <p>第二页背面</p>
             </div>
         </div>
         
-        <!-- 第一页 -->
+        <!-- 第一页 - 添加翻开效果 -->
         <div class="now_page point preserve-3d">
             <div class="book-page front">
                 <p>第一页正面</p>
+                <div class="popup-element" data-animation="unfold">
+                    <div class="popup-content">惊喜内容</div>
+                </div>
             </div>
             <div class="book-page back">
                 <p>第一页背面</p>
@@ -67,5 +87,6 @@
     <script src="script.js"></script>
     <script src="flower.js"></script>
     <script src="snow.js"></script>
+    <script src="mechanics.js"></script>
 </body>
 </html>

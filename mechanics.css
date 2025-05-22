@@ -1,0 +1,119 @@
+/* 机关元素基础样式 */
+.mechanic-heart {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    cursor: pointer;
+    transform-origin: center bottom;
+    transition: transform 0.3s ease;
+}
+
+.mechanic-heart:hover {
+    transform: scale(1.1);
+}
+
+.pull-handle {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+}
+
+.wire-path {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 2px;
+    height: 0;
+    background: #ff6b6b;
+    transform: translateX(-50%);
+    transition: height 0.5s ease;
+}
+
+/* 隐藏内容 */
+.hidden-content {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+
+.hidden-content.revealed {
+    opacity: 1;
+    height: auto;
+}
+
+/* 照片瀑布流动画 */
+.memory-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    padding: 15px;
+}
+
+.memory-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #f8f8f8;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100vh) rotate(15deg);
+}
+
+.memory-photo.animated {
+    animation: photo-fall 1s forwards;
+}
+
+@keyframes photo-fall {
+    from { transform: translateY(-100vh) rotate(15deg); }
+    to { transform: translateY(0) rotate(0); }
+}
+
+/* 密码锁样式 */
+#combination-lock {
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: 20px auto;
+    cursor: pointer;
+}
+
+/* 弹出元素 */
+.popup-element {
+    width: 150px;
+    height: 150px;
+    margin: 20px auto;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.popup-content {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.popup-element.active .popup-content {
+    transform: scale(1);
+}
+
+/* 情书样式 */
+.letter-text {
+    font-family: 'Brush Script MT', cursive;
+    color: #d63031;
+    text-align: center;
+    line-height: 1.6;
+    padding: 20px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23ffcccc" stroke-width="2"/></svg>') repeat;
+    background-size: 20px 20px;
+}

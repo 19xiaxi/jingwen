@@ -8,8 +8,28 @@ function initBook() {
     $('.book').removeClass('book-position-left book-position-right').addClass('book-position-center');
 }
 
+// 添加书本厚度和书脊弯曲效果
+function enhanceBookStructure() {
+    const $book = $('.book');
+    const totalPages = $('.now_page').length;
+    
+    // 添加书脊效果
+    $book.append('<div class="book-spine"></div>');
+    
+    // 根据页面数量动态设置书本厚度
+    const pageDepth = 0.5; // 每页厚度(mm)
+    const totalThickness = pageDepth * totalPages;
+    $('.book-spine').css('width', totalThickness + 'mm');
+    
+    // 设置书脊弯曲度
+    const hingeFlexibility = 0.7;
+    $('.book').attr('data-hinge-flexibility', hingeFlexibility);
+}
+
+// 初始化时调用
 $(document).ready(function() {
     initBook();
+    enhanceBookStructure();
 });
 
 $('.now_page').click(function(){
