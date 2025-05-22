@@ -173,6 +173,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 backContent = `<p>填写我们的未来计划，封口贴火漆印章</p>`;
                 break;
+            case 5:
+                frontContent = `
+                    <h2>新的篇章</h2>
+                    <div class="custom-section">
+                        <p>这里是你自定义的内容，可以放图片、文字、按钮等。</p>
+                        <img src="assets/your-image.png" alt="自定义图片" style="width:100px;">
+                    </div>
+                `;
+                backContent = `<p>这里是第5页的背面内容。</p>`;
+                break;
             default:
                 frontContent = `<h2>我们的故事</h2><p>每一页都是一段温暖的回忆。</p>`;
                 backContent = `<p>继续翻页，发现更多惊喜！</p>`;
