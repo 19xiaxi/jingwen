@@ -114,74 +114,79 @@ document.addEventListener('DOMContentLoaded', function() {
         let backContent = '';
         switch(pageIndex) {
             case 1:
-                // 初见・心动时刻
                 frontContent = `
                     <h2>初见・心动时刻</h2>
+                    <p>那一天，阳光正好，微风不燥。你出现在我的世界里，像一束光照亮了我的心房。</p>
                     <div class="drawer-mechanism">
                         <button onclick="alert('抽屉打开，发现初次约会的电影票！')">拉出抽屉</button>
-                        <div class="drawer-content">可贴真实电影票/咖啡杯垫</div>
+                        <div class="drawer-content">这里可以贴上我们的第一张电影票或咖啡杯垫。</div>
                     </div>
                     <div class="ferris-wheel">
                         <img src="assets/ferris-wheel.png" alt="摩天轮" style="width:120px;">
                         <button onclick="alert('心跳音效播放！')">旋转摩天轮</button>
                     </div>
-                    <blockquote>在 37℃的夏风里，我的目光被你袖口的星芒绊住了脚</blockquote>
+                    <blockquote>在 37℃的夏风里，我的目光被你袖口的星芒绊住了脚。</blockquote>
                 `;
-                backContent = `<p>扫码听见我们的心跳音效</p><img src="assets/qrcode-heart.png" alt="心跳音效二维码" style="width:80px;">`;
+                backContent = `
+                    <p>那一刻的心跳，至今难忘。</p>
+                    <p>扫码听见我们的心跳音效：</p>
+                    <img src="assets/qrcode-heart.png" alt="心跳音效二维码" style="width:80px;">
+                `;
                 break;
             case 2:
-                // 热恋・日常碎片
                 frontContent = `
                     <h2>热恋・日常碎片</h2>
+                    <p>我们一起走过的日子，都是生活最温柔的注脚。那些小默契、小惊喜，串联成专属于我们的回忆。</p>
                     <div class="flip-grid">
                         <button onclick="alert('翻开，发现默契小趣事！')">翻翻页</button>
-                        <div class="grid-content">9宫格日常梗</div>
+                        <div class="grid-content">9宫格日常梗：<br>同时点同款奶茶、异口同声接台词、一起看星星……</div>
                     </div>
                     <div class="slider-track">
                         <span>关键词磁贴：</span>
                         <input type="range" min="1" max="3" value="1" />
-                        <span>火锅/猫咪/凌晨三点看星星</span>
+                        <span>火锅 / 猫咪 / 凌晨三点看星星</span>
                     </div>
                 `;
-                backContent = `<p>拼出我们的专属密语</p>`;
+                backContent = `
+                    <p>把我们的专属密语拼出来吧！</p>
+                    <p>每一个小细节，都是爱的证明。</p>
+                `;
                 break;
             case 3:
-                // 周年・承诺时刻
                 frontContent = `
                     <h2>周年・承诺时刻</h2>
+                    <p>一年的时光，我们一起经历了成长、磨合与陪伴。感谢你一直在我身边。</p>
                     <div class="popup-tree">
                         <button onclick="alert('立体许愿树弹出！')">打开许愿树</button>
-                        <div class="tree-content">愿望卡片可抽拉</div>
+                        <div class="tree-content">愿望卡片可抽拉，写下我们的心愿。</div>
                     </div>
                     <div class="ribbon-light">
                         <button onclick="alert('拉动丝带，小屋亮灯！')">拉动丝带</button>
                     </div>
-                    <blockquote>第 365 天，想和你从‘你好’说到‘余生请多指教’</blockquote>
+                    <blockquote>第 365 天，想和你从‘你好’说到‘余生请多指教’。</blockquote>
                 `;
-                backContent = `<p>扫码听见我们的周年BGM</p><img src="assets/qrcode-anniversary.png" alt="周年BGM二维码" style="width:80px;">`;
+                backContent = `
+                    <p>扫码听见我们的周年BGM：</p>
+                    <img src="assets/qrcode-anniversary.png" alt="周年BGM二维码" style="width:80px;">
+                    <p>愿我们的故事，温暖且长久。</p>
+                `;
                 break;
             case 4:
-                // 未来・空白待续
                 frontContent = `
                     <h2>未来・空白待续</h2>
+                    <p>未来的路还很长，愿我们携手走过每一个春夏秋冬。</p>
                     <div class="film-notes">
-                        <p>可撕便签本，粘贴照片/手绘</p>
+                        <p>这里可以粘贴我们的拍立得照片、手绘涂鸦，记录每一个值得纪念的瞬间。</p>
                     </div>
                     <div class="envelope">
                         <button onclick="alert('打开信封，发现时间胶囊卡片！')">打开信封</button>
+                        <p>写下2028年想一起完成的事，封存我们的约定。</p>
                     </div>
                 `;
-                backContent = `<p>填写我们的未来计划，封口贴火漆印章</p>`;
-                break;
-            case 5:
-                frontContent = `
-                    <h2>新的篇章</h2>
-                    <div class="custom-section">
-                        <p>这里是你自定义的内容，可以放图片、文字、按钮等。</p>
-                        <img src="assets/your-image.png" alt="自定义图片" style="width:100px;">
-                    </div>
+                backContent = `
+                    <p>封口处贴上专属火漆印章，见证我们的未来。</p>
+                    <p>期待与你共赴每一个明天。</p>
                 `;
-                backContent = `<p>这里是第5页的背面内容。</p>`;
                 break;
             default:
                 frontContent = `<h2>我们的故事</h2><p>每一页都是一段温暖的回忆。</p>`;
